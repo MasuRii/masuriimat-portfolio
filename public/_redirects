@@ -1,0 +1,7 @@
+# Redirect www to bare domain
+# Netlify handles this at the DNS level, but this is a fallback
+# for any direct www requests that slip through.
+https://www.masurii.dev/* https://masurii.dev/:splat 301!
+
+# Project pages — clean URLs handled by Astro's trailing slash convention
+# No redirects needed; Astro generates index.html inside each route directory.
