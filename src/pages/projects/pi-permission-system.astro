@@ -1,0 +1,31 @@
+---
+import CaseStudyLayout from '@/layouts/CaseStudyLayout.astro';
+import { getProjectById } from '@/data/projects';
+
+const project = getProjectById('pi-permission-system')!;
+---
+
+<CaseStudyLayout
+  title={project.title}
+  description={project.tagline}
+  projectUrl={project.repo}
+  stars={project.stars}
+  forks={project.forks}
+  techTags={['TypeScript', 'Pi', 'Permissions', 'Security', 'Agent Safety']}
+  screenshots={project.screenshots}
+>
+  <h2>The Problem</h2>
+  <p>
+    AI coding agents can execute arbitrary commands and modify files — sometimes with unintended consequences. Without granular permission controls, every action runs with full privileges, making agent workflows error-prone and potentially destructive.
+  </p>
+
+  <h2>Approach</h2>
+  <p>
+    Built a permission enforcement extension for Pi that restricts which tools can execute and under what conditions. The system provides configurable allow/deny rules per tool, per path, and per context — giving developers fine-grained control over what their agent can do.
+  </p>
+
+  <h2>Results</h2>
+  <p>
+    {project.stars}★. Demonstrates security-first thinking in agent ecosystems — proving that autonomy and safety aren't opposing forces.
+  </p>
+</CaseStudyLayout>

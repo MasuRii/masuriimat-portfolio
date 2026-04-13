@@ -1,0 +1,32 @@
+---
+import CaseStudyLayout from '@/layouts/CaseStudyLayout.astro';
+import { getProjectById } from '@/data/projects';
+
+const project = getProjectById('luv-charms-ecommerce')!;
+---
+
+<CaseStudyLayout
+  title={project.title}
+  description={project.tagline}
+  projectUrl={project.repo}
+  stars={project.stars}
+  forks={project.forks}
+  liveUrl={project.demo}
+  techTags={['Next.js', 'React 19', 'E-commerce', 'Messenger Integration']}
+  screenshots={project.screenshots}
+>
+  <h2>The Problem</h2>
+  <p>
+    Small businesses in the Philippines sell primarily through Facebook Messenger. Traditional e-commerce checkouts create friction — customers need credit cards, shipping APIs, and a whole payment infrastructure that many small sellers can't set up.
+  </p>
+
+  <h2>Approach</h2>
+  <p>
+    Built a Next.js 16 + React 19 e-commerce site that replaces the checkout with a "Chat on Messenger" workflow. Customers browse products, add to cart, then get redirected to Messenger to complete the order directly with the seller. Live on Vercel.
+  </p>
+
+  <h2>Results</h2>
+  <p>
+    A real product serving a real client (my sister's bracelet business). Demonstrates understanding that the best UX isn't always the most technically sophisticated — it's the one that matches how people actually buy.
+  </p>
+</CaseStudyLayout>

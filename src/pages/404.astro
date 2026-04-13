@@ -1,0 +1,31 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="404 — MasuRii" description="Page not found.">
+  <div class="flex flex-col items-center justify-center py-32 md:py-48 text-center px-4">
+    <p class="font-mono text-sm text-accent mb-4" aria-hidden="true">
+      <span class="text-text-dim">$</span> cd <span class="text-path">{Astro.url.pathname}</span>
+    </p>
+    <p class="font-mono text-sm text-red" style="color: var(--color-red);font-family: var(--font-mono);">
+      bash: cd: {Astro.url.pathname}: No such file or directory
+    </p>
+    <h1
+      class="text-5xl md:text-6xl font-display font-bold text-text mb-4 mt-6 glitch-text"
+      data-text="404"
+      aria-label="Error 404, page not found"
+    >
+      404
+    </h1>
+    <p class="text-text-muted max-w-md mb-8">
+      This page doesn't exist, or it was moved. Nothing broken on your end.
+    </p>
+    <a
+      href="/"
+      class="inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-white font-display font-medium text-sm rounded hover:bg-accent-hover transition-colors min-h-[44px]"
+    >
+      <span class="font-mono text-xs" aria-hidden="true">$</span>
+      cd ~
+    </a>
+  </div>
+</BaseLayout>

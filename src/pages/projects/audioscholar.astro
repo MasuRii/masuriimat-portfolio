@@ -1,0 +1,32 @@
+---
+import CaseStudyLayout from '@/layouts/CaseStudyLayout.astro';
+import { getProjectById } from '@/data/projects';
+
+const project = getProjectById('audioscholar')!;
+---
+
+<CaseStudyLayout
+  title={project.title}
+  description={project.tagline}
+  projectUrl={project.repo}
+  stars={project.stars}
+  forks={project.forks}
+  liveUrl={project.demo}
+  techTags={['Kotlin', 'React', 'AI', 'Audio Summarization']}
+  screenshots={project.screenshots}
+>
+  <h2>The Problem</h2>
+  <p>
+    Audio content — lectures, meetings, podcasts — is hard to review. Listening to a 2-hour recording to find one key point is inefficient. Existing solutions required expensive subscriptions or produced low-quality summaries.
+  </p>
+
+  <h2>Approach</h2>
+  <p>
+    Built a dual-platform audio summarization system: an Android app (Kotlin) for mobile recording and a React web interface for desktop access. Upload or record audio, and AI generates a structured summary. The live deployment on Vercel makes it immediately usable.
+  </p>
+
+  <h2>Results</h2>
+  <p>
+    A shipped, live product with real users. Demonstrates end-to-end product development — from mobile native to web to deployment infrastructure.
+  </p>
+</CaseStudyLayout>

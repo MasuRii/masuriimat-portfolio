@@ -1,0 +1,32 @@
+---
+import CaseStudyLayout from '@/layouts/CaseStudyLayout.astro';
+import { getProjectById } from '@/data/projects';
+
+const project = getProjectById('citu-course-builder')!;
+---
+
+<CaseStudyLayout
+  title={project.title}
+  description={project.tagline}
+  projectUrl={project.repo}
+  stars={project.stars}
+  forks={project.forks}
+  liveUrl={project.demo}
+  techTags={['TypeScript', 'Astro', 'React', 'Student Tool']}
+  screenshots={project.screenshots}
+>
+  <h2>The Problem</h2>
+  <p>
+    CITU students need to plan class schedules across multiple sections, but the existing options are either paper-based or clunky PDFs that don't support filtering or optimization.
+  </p>
+
+  <h2>Approach</h2>
+  <p>
+    Built a web app using Astro + React (the same stack as this portfolio) that lets students filter courses by subject, time, and professor, then build and optimize schedules. Deployed on GitHub Pages for zero-cost hosting that students can actually use.
+  </p>
+
+  <h2>Results</h2>
+  <p>
+    A real community product with a live deployment. Uses the same Astro + React island architecture as this portfolio — proving the stack works beyond developer portfolios.
+  </p>
+</CaseStudyLayout>

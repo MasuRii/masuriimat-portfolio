@@ -1,0 +1,26 @@
+---
+import CaseStudyLayout from '@/layouts/CaseStudyLayout.astro';
+import { getProjectById } from '@/data/projects';
+
+const project = getProjectById('masusensei-bot')!;
+---
+
+<CaseStudyLayout
+  title={project.title}
+  description={project.tagline}
+  projectUrl={project.repo}
+  stars={project.stars}
+  forks={project.forks}
+  techTags={['Python', 'AI Agent', 'Code Review', 'Education']}
+  screenshots={project.screenshots}
+>
+  <h2>Approach</h2>
+  <p>
+    An AI agent that reviews code repositories with a teacher persona — providing educational feedback rather than simple linting. Instead of just flagging errors, MasuSensei explains why something matters, what alternatives exist, and how the code fits into broader patterns.
+  </p>
+
+  <h2>Note</h2>
+  <p>
+    Early-stage exploration. The "teacher agent" angle is unique — most code review tools are critics, not educators. The concept is worth pursuing further.
+  </p>
+</CaseStudyLayout>

@@ -1,0 +1,325 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ProjectCard from '@/components/ProjectCard.astro';
+import { ProjectFilter } from '@/components/ProjectFilter';
+import {
+  projects,
+  clusters,
+  piEcosystem,
+  wtrLabSuite,
+  templateSuite,
+  transportSuite,
+  type Cluster,
+  type ProjectTier,
+  tierLabels,
+  tierDescriptions,
+  tierTuiPrefix,
+  getAllTiers,
+  getAllLanguages,
+} from '@/data/projects';
+
+// Group projects by tier for recruiter-friendly progressive disclosure
+const tiers = getAllTiers();
+const languages = getAllLanguages();
+
+const projectsByCluster = new Map<Cluster, typeof projects>();
+for (const project of projects) {
+  const group = projectsByCluster.get(project.cluster) || [];
+  group.push(project);
+  projectsByCluster.set(project.cluster, group);
+}
+
+// Serialize data for the React island
+const projectsForFilter = projects.map(p => ({
+  id: p.id,
+  title: p.title,
+  tagline: p.tagline,
+  language: p.language,
+  stars: p.stars,
+  tier: p.tier,
+  cluster: p.cluster,
+  topics: p.topics,
+  demo: p.demo,
+}));
+
+const clustersForFilter = clusters.map(c => ({
+  id: c.id,
+  label: c.label,
+  tuiHeader: c.tuiHeader,
+  description: c.description,
+}));
+
+const tierLabelsForFilter = { ...tierLabels };
+const tierDescriptionsForFilter = { ...tierDescriptions };
+const tierTuiPrefixForFilter = { ...tierTuiPrefix };
+---
+
+<BaseLayout
+  title="Projects — MasuRii"
+  description="Showcase of projects by MasuRii — AI infrastructure, developer tools, full-stack products, and systems programming."
+>
+  <section class="py-16 md:py-24" aria-labelledby="projects-heading">
+    <div class="max-w-showcase mx-auto px-4 md:px-12">
+      <!-- Heading -->
+      <p class="tui-heading mb-2" aria-hidden="true">
+        <span class="text-accent">$</span> ls projects/
+      </p>
+      <h1 id="projects-heading" class="text-4xl md:text-5xl font-display font-bold text-text mb-4">
+        Projects
+      </h1>
+      <p class="text-text-muted text-base mb-8 max-w-2xl">
+        A curated selection across AI infrastructure, developer experience, and shipped products.
+        Organized by tier: <span class="tui-badge--flagship text-xs">Flagship</span> = defining work,
+        <span class="tui-badge--notable text-xs">Notable</span> = solid with demos,
+        <span class="tui-badge--extension text-xs">Extension</span> = supporting plugins.
+      </p>
+
+      <!-- Interactive filter bar (React island) -->
+      <ProjectFilter
+        client:load
+        projects={projectsForFilter}
+        clusters={clustersForFilter}
+        tierLabels={tierLabelsForFilter}
+        tierDescriptions={tierDescriptionsForFilter}
+        tierTuiPrefix={tierTuiPrefixForFilter}
+      />
+    </div>
+  </section>
+
+  <!-- Static fallback: projects always rendered for no-JS and SEO -->
+  <section aria-label="All projects" class="pb-16">
+    <div class="max-w-showcase mx-auto px-4 md:px-12">
+      <p class="tui-heading mb-4" aria-hidden="true">
+        <span class="text-accent">$</span> tree --tier
+      </p>
+
+      <!-- Tier-based progressive disclosure -->
+      {(['flagship', 'notable', 'extension'] as ProjectTier[]).map(tier => {
+        const tierProjects = projects.filter(p => p.tier === tier);
+        if (tierProjects.length === 0) return null;
+        return (
+          <div class="mb-14" id={`tier-${tier}`}>
+            <div class="flex items-baseline gap-3 mb-4">
+              <span class={`tui-badge--${tier}`} title={tierDescriptions[tier]}>
+                {tier === 'flagship' && (
+                  <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                )}
+                {tierLabels[tier]}
+              </span>
+              <span class="text-sm text-text-muted font-mono">{tierDescriptions[tier]}</span>
+            </div>
+            <div>
+              {tierProjects.map((project, i) => (
+                <ProjectCard
+                  title={project.title}
+                  tagline={project.tagline}
+                  language={project.language}
+                  stars={project.stars}
+                  forks={project.forks}
+                  topics={project.topics}
+                  demo={project.demo}
+                  screenshots={project.screenshots}
+                  tier={project.tier}
+                  href={`/projects/${project.id}`}
+                  index={i}
+                />
+              ))}
+            </div>
+          </div>
+        );
+      })}
+
+      <!-- Grouped collections: Pi Ecosystem -->
+      <div class="mb-12" id="ecosystem">
+        <p class="tui-heading mb-1" aria-hidden="true">
+          <span class="text-accent">$</span> ls <span class="text-path"># ecosystem/</span>
+        </p>
+        <h2 class="text-2xl font-display font-bold text-text mb-2">
+          {piEcosystem.title}
+        </h2>
+        <p class="text-sm text-text-muted mb-4 font-mono">
+          {piEcosystem.description}
+        </p>
+
+        {piEcosystem.screenshot && (
+          <div class="tui-screenshot max-w-md mb-4">
+            <img
+              src={piEcosystem.screenshot.url}
+              alt={piEcosystem.screenshot.alt}
+              loading="lazy"
+              decoding="async"
+              width={piEcosystem.screenshot.width}
+              height={piEcosystem.screenshot.height}
+            />
+          </div>
+        )}
+
+        <details class="group">
+          <summary class="cursor-pointer font-mono text-sm text-accent hover:text-accent-hover transition-colors min-h-[44px] flex items-center gap-2">
+            <svg class="w-4 h-4 transition-transform group-open:rotate-90" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+            {piEcosystem.repos.length} extensions ({piEcosystem.aggregateStars}★ combined)
+          </summary>
+          <div class="mt-3 pl-4 flex flex-wrap gap-2">
+            {piEcosystem.repos.map(repo => (
+              <a
+                href={`https://github.com/MasuRii/${repo}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="tui-tag hover:border-accent/40 transition-colors"
+              >
+                {repo}
+              </a>
+            ))}
+          </div>
+        </details>
+      </div>
+
+      <!-- Grouped collections: WTR-Lab Suite -->
+      <div class="mb-12" id="userscripts">
+        <p class="tui-heading mb-1" aria-hidden="true">
+          <span class="text-accent">$</span> ls <span class="text-path"># userscripts/</span>
+        </p>
+        <h2 class="text-2xl font-display font-bold text-text mb-2">
+          {wtrLabSuite.title}
+        </h2>
+        <p class="text-sm text-text-muted mb-4 font-mono">
+          {wtrLabSuite.description}
+        </p>
+
+        <details class="group">
+          <summary class="cursor-pointer font-mono text-sm text-accent hover:text-accent-hover transition-colors min-h-[44px] flex items-center gap-2">
+            <svg class="w-4 h-4 transition-transform group-open:rotate-90" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+            {wtrLabSuite.repos.length} userscripts ({wtrLabSuite.aggregateStars}★ combined)
+          </summary>
+          <div class="mt-3 pl-4 flex flex-wrap gap-2">
+            {wtrLabSuite.repos.map(repo => (
+              <a
+                href={`https://github.com/MasuRii/${repo}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="tui-tag hover:border-accent/40 transition-colors"
+              >
+                {repo}
+              </a>
+            ))}
+          </div>
+        </details>
+      </div>
+
+      <!-- Grouped collections: Website Templates -->
+      <div class="mb-12" id="templates">
+        <p class="tui-heading mb-1" aria-hidden="true">
+          <span class="text-accent">$</span> ls <span class="text-path"># templates/</span>
+        </p>
+        <h2 class="text-2xl font-display font-bold text-text mb-2">
+          {templateSuite.title}
+        </h2>
+        <p class="text-sm text-text-muted mb-4 font-mono">
+          {templateSuite.description}
+        </p>
+
+        {templateSuite.screenshot && (
+          <div class="tui-screenshot max-w-md mb-4">
+            <img
+              src={templateSuite.screenshot.url}
+              alt={templateSuite.screenshot.alt}
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        )}
+
+        <details class="group">
+          <summary class="cursor-pointer font-mono text-sm text-accent hover:text-accent-hover transition-colors min-h-[44px] flex items-center gap-2">
+            <svg class="w-4 h-4 transition-transform group-open:rotate-90" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+            {templateSuite.repos.length} templates ({templateSuite.aggregateStars}★ combined)
+          </summary>
+          <div class="mt-3 pl-4 flex flex-wrap gap-2">
+            {templateSuite.repos.map(repo => (
+              <a
+                href={`https://github.com/MasuRii/${repo}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="tui-tag hover:border-accent/40 transition-colors"
+              >
+                {repo}
+              </a>
+            ))}
+          </div>
+        </details>
+      </div>
+
+      <!-- Grouped collections: Transport -->
+      <div class="mb-12" id="transport">
+        <p class="tui-heading mb-1" aria-hidden="true">
+          <span class="text-accent">$</span> ls <span class="text-path"># transport/</span>
+        </p>
+        <h2 class="text-2xl font-display font-bold text-text mb-2">
+          {transportSuite.title}
+        </h2>
+        <p class="text-sm text-text-muted mb-4 font-mono">
+          {transportSuite.description}
+        </p>
+
+        <details class="group">
+          <summary class="cursor-pointer font-mono text-sm text-accent hover:text-accent-hover transition-colors min-h-[44px] flex items-center gap-2">
+            <svg class="w-4 h-4 transition-transform group-open:rotate-90" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+            {transportSuite.repos.length} transport apps
+          </summary>
+          <div class="mt-3 pl-4 flex flex-wrap gap-2">
+            {transportSuite.repos.map(repo => (
+              <a
+                href={`https://github.com/RecursiveDev/${repo}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="tui-tag hover:border-accent/40 transition-colors"
+              >
+                {repo}
+              </a>
+            ))}
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stagger card reveal for project cards -->
+  <script is:inline>
+    (function () {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        // Make all cards visible immediately for reduced motion
+        document.querySelectorAll('.stagger-card').forEach(function(card) {
+          card.classList.add('revealed');
+        });
+        return;
+      }
+
+      var cards = document.querySelectorAll('.stagger-card');
+      if (!cards.length || !('IntersectionObserver' in window)) {
+        cards.forEach(function(card) { card.classList.add('revealed'); });
+        return;
+      }
+
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.05, rootMargin: '0px 0px -20px 0px' });
+
+      cards.forEach(function(card) { observer.observe(card); });
+    })();
+  </script>
+</BaseLayout>

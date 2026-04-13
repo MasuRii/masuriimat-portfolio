@@ -1,0 +1,32 @@
+---
+import CaseStudyLayout from '@/layouts/CaseStudyLayout.astro';
+import { getProjectById } from '@/data/projects';
+
+const project = getProjectById('rustdupe')!;
+---
+
+<CaseStudyLayout
+  title={project.title}
+  description={project.tagline}
+  projectUrl={project.repo}
+  stars={project.stars}
+  forks={project.forks}
+  liveUrl={project.crates}
+  techTags={['Rust', 'BLAKE3', 'TUI', 'CLI', 'Cross-Platform']}
+  screenshots={project.screenshots}
+>
+  <h2>The Problem</h2>
+  <p>
+    Finding duplicate files on large storage is slow and tedious. Existing tools either use weak hashes (prone to false positives) or lack an interactive interface for reviewing results before acting.
+  </p>
+
+  <h2>Approach</h2>
+  <p>
+    Built a Rust CLI with BLAKE3 hashing for fast, cryptographically-accurate duplicate detection, plus an interactive TUI for reviewing and managing duplicates. Published on crates.io for easy installation via <code>cargo install rustdupe</code>.
+  </p>
+
+  <h2>Results</h2>
+  <p>
+    Published crate on crates.io. Demonstrates systems programming breadth beyond web/TypeScript, and the TUI interface — fittingly — matches the terminal-first aesthetic of this portfolio.
+  </p>
+</CaseStudyLayout>

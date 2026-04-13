@@ -1,0 +1,31 @@
+---
+import CaseStudyLayout from '@/layouts/CaseStudyLayout.astro';
+import { getProjectById } from '@/data/projects';
+
+const project = getProjectById('opencode-smart-voice-notify')!;
+---
+
+<CaseStudyLayout
+  title={project.title}
+  description={project.tagline}
+  projectUrl={project.repo}
+  stars={project.stars}
+  forks={project.forks}
+  techTags={['TypeScript', 'OpenCode', 'TTS', 'ElevenLabs', 'Edge TTS']}
+  screenshots={project.screenshots}
+>
+  <h2>The Problem</h2>
+  <p>
+    When you're running long coding agent tasks, you need to know when they finish — or when they hit errors. Constantly checking the terminal is wasteful. Existing notification solutions were single-provider and didn't handle the specific events that matter in coding agent workflows.
+  </p>
+
+  <h2>Approach</h2>
+  <p>
+    I built a smart notification plugin for OpenCode that supports multiple TTS engines — ElevenLabs for production quality, Edge TTS for free usage, Windows SAPI for zero-dependency local playback, and any OpenAI-compatible endpoint. The plugin hooks into OpenCode's event system and triggers voice notifications for task completions, errors, and other meaningful workflow events.
+  </p>
+
+  <h2>Results</h2>
+  <p>
+    {project.stars}★, {project.forks} forks — tied for the highest-starred extension in the OpenCode ecosystem. The multi-provider architecture means users can choose their preferred TTS quality level and cost without changing any code.
+  </p>
+</CaseStudyLayout>

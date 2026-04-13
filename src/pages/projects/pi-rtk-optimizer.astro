@@ -1,0 +1,31 @@
+---
+import CaseStudyLayout from '@/layouts/CaseStudyLayout.astro';
+import { getProjectById } from '@/data/projects';
+
+const project = getProjectById('pi-rtk-optimizer')!;
+---
+
+<CaseStudyLayout
+  title={project.title}
+  description={project.tagline}
+  projectUrl={project.repo}
+  stars={project.stars}
+  forks={project.forks}
+  techTags={['TypeScript', 'Pi', 'RTK', 'Token Optimization']}
+  screenshots={project.screenshots}
+>
+  <h2>The Problem</h2>
+  <p>
+    AI coding agents are token-hungry. Every tool call, every redundant response, every verbose output costs tokens — and money. Pi's default command processing doesn't optimize for token efficiency.
+  </p>
+
+  <h2>Approach</h2>
+  <p>
+    Built an extension that rewrites commands and compacts tool output before it reaches the model. The optimizer analyzes tool responses, identifies redundant information, and produces compressed versions that preserve meaning while reducing token count. The pipeline-based architecture makes each transformation step independently testable and composable.
+  </p>
+
+  <h2>Results</h2>
+  <p>
+    {project.stars}★, {project.forks} forks. Demonstrates that agent performance optimization isn't just about better prompts — it's about reducing the information the model has to process at every step.
+  </p>
+</CaseStudyLayout>

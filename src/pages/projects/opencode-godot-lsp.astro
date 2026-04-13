@@ -1,0 +1,31 @@
+---
+import CaseStudyLayout from '@/layouts/CaseStudyLayout.astro';
+import { getProjectById } from '@/data/projects';
+
+const project = getProjectById('opencode-godot-lsp')!;
+---
+
+<CaseStudyLayout
+  title={project.title}
+  description={project.tagline}
+  projectUrl={project.repo}
+  stars={project.stars}
+  forks={project.forks}
+  techTags={['JavaScript', 'Godot', 'GDScript', 'Language Server Protocol', 'OpenCode']}
+  screenshots={project.screenshots}
+>
+  <h2>The Problem</h2>
+  <p>
+    Game developers using OpenCode for AI-assisted coding lose access to GDScript intelligence — autocompletion, diagnostics, hover info — because there's no bridge between the Godot Language Server and OpenCode's tool ecosystem.
+  </p>
+
+  <h2>Approach</h2>
+  <p>
+    Built a Language Server Protocol bridge that connects OpenCode to the Godot engine's built-in LSP. When a user opens a GDScript file, the extension starts the Godot LSP, forwards requests and responses, and provides real-time autocompletion and diagnostics inside the terminal.
+  </p>
+
+  <h2>Results</h2>
+  <p>
+    {project.stars}★ — notable for a niche tool. Demonstrates protocol expertise (LSP) and game-dev crossover, making OpenCode viable for the Godot development workflow.
+  </p>
+</CaseStudyLayout>

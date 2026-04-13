@@ -1,0 +1,31 @@
+---
+import CaseStudyLayout from '@/layouts/CaseStudyLayout.astro';
+import { getProjectById } from '@/data/projects';
+
+const project = getProjectById('fbscrapeideas')!;
+---
+
+<CaseStudyLayout
+  title={project.title}
+  description={project.tagline}
+  projectUrl={project.repo}
+  stars={project.stars}
+  forks={project.forks}
+  techTags={['Python', 'Playwright', 'Gemini AI', 'CLI', 'Data Mining']}
+  screenshots={project.screenshots}
+>
+  <h2>The Problem</h2>
+  <p>
+    Researchers and marketers need to analyze Facebook group content, but scraping is fragile — Facebook changes their DOM constantly, breaking selectors. Most scraping tools break within weeks of changes.
+  </p>
+
+  <h2>Approach</h2>
+  <p>
+    I built a CLI tool that combines Playwright-based scraping with Gemini AI analysis. The key innovation is self-healing selectors — when Facebook changes their DOM, the tool uses AI to identify the right elements instead of failing. Data extraction feeds directly into AI-powered analysis and idea generation.
+  </p>
+
+  <h2>Results</h2>
+  <p>
+    {project.stars}★, {project.forks} forks — the highest fork count among MasuRii's projects. The self-healing selector pattern proved durable enough to survive multiple Facebook DOM changes without manual updates.
+  </p>
+</CaseStudyLayout>

@@ -1,0 +1,41 @@
+---
+import CaseStudyLayout from '@/layouts/CaseStudyLayout.astro';
+import { getProjectById } from '@/data/projects';
+
+const project = getProjectById('pi-tool-display')!;
+---
+
+<CaseStudyLayout
+  title={project.title}
+  description={project.tagline}
+  projectUrl={project.repo}
+  stars={project.stars}
+  forks={project.forks}
+  techTags={['TypeScript', 'Pi TUI', 'ANSI Rendering', 'Extension API']}
+  screenshots={project.screenshots}
+>
+  <h2>The Problem</h2>
+  <p>
+    Pi's default tool call output in the TUI is verbose and noisy. When an agent makes 20 tool calls in a session, the terminal becomes unreadable — you lose track of what happened and why. The raw output format assumes you want to see everything, which means you can't see anything.
+  </p>
+
+  <h2>Approach</h2>
+  <p>
+    I designed a display layer that collapses, colorizes, and contextualizes tool output. Diff visualization gets syntax highlighting. Smart truncation keeps the important parts visible while hiding repetitive content. All of this works within terminal UI constraints — no CSS, no flexbox, just ANSI sequences and box-drawing characters.
+  </p>
+  <p>
+    The extension hooks into Pi's TUI rendering pipeline, intercepting raw tool output before it reaches the terminal display. It then applies a series of transforms: collapsing verbose file listings, highlighting diff additions and removals, and truncating long outputs while keeping the first and last N lines.
+  </p>
+
+  <h2>Challenges</h2>
+  <ul>
+    <li><strong>Terminal rendering is unforgiving.</strong> No CSS, no flexbox. Getting diff syntax highlighting to look good in 80-column constraints required careful character counting and ANSI escape sequence management.</li>
+    <li><strong>Balancing information density with readability.</strong> Too much collapsing hides useful context; too little defeats the purpose. I iterated on truncation thresholds based on my own daily usage.</li>
+    <li><strong>Pi's extension API was evolving.</strong> The API surface changed during development, requiring constant adaptation.</li>
+  </ul>
+
+  <h2>Results</h2>
+  <p>
+    {project.stars}★, {project.forks} forks — the highest-starred Pi extension. Adopted by the Pi community as a de facto standard for tool display. This project proved that developer experience isn't just about adding features — it's about subtracting noise.
+  </p>
+</CaseStudyLayout>

@@ -1,0 +1,26 @@
+---
+import CaseStudyLayout from '@/layouts/CaseStudyLayout.astro';
+import { getProjectById } from '@/data/projects';
+
+const project = getProjectById('pi-image-tools')!;
+---
+
+<CaseStudyLayout
+  title={project.title}
+  description={project.tagline}
+  projectUrl={project.repo}
+  stars={project.stars}
+  forks={project.forks}
+  techTags={['TypeScript', 'Pi', 'Image Processing', 'Media Handling']}
+  screenshots={project.screenshots}
+>
+  <h2>Approach</h2>
+  <p>
+    An extension for Pi that adds image attachment and preview capabilities to the TUI. Users can attach screenshots, reference images, and view inline previews — all within terminal constraints, using Sixel or Kitty image protocols where available, with graceful fallback to URL display.
+  </p>
+
+  <h2>Results</h2>
+  <p>
+    {project.stars}★. Media handling in terminal UIs is notoriously hard — this extension proves it's both possible and useful when done right.
+  </p>
+</CaseStudyLayout>

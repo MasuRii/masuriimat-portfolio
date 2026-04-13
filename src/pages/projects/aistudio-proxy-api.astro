@@ -1,0 +1,42 @@
+---
+import CaseStudyLayout from '@/layouts/CaseStudyLayout.astro';
+import { getProjectById } from '@/data/projects';
+
+const project = getProjectById('aistudio-proxy-api')!;
+---
+
+<CaseStudyLayout
+  title={project.title}
+  description={project.tagline}
+  projectUrl={project.repo}
+  stars={project.stars}
+  forks={project.forks}
+  techTags={['Python', 'FastAPI', 'Playwright', 'Camoufox', 'OpenAI API']}
+  screenshots={project.screenshots}
+>
+  <h2>The Problem</h2>
+  <p>
+    Google AI Studio provides powerful free-model access but only through their web interface — no clean API. Developers who want to use it programmatically are stuck. You either use the official Gemini API (which has different model access and pricing) or you simply can't use Google AI Studio's models in your existing OpenAI-based toolchain.
+  </p>
+
+  <h2>Approach</h2>
+  <p>
+    I built a FastAPI server that exposes an OpenAI-compatible endpoint. Under the hood, it uses Playwright to automate browser sessions and Camoufox — a stealthy Firefox fork — to avoid bot detection. Standard OpenAI-format requests get routed through to Google's models, making the proxy a drop-in replacement for existing OpenAI clients.
+  </p>
+  <p>
+    The architecture separates concerns: the FastAPI layer handles request/response formatting, while the browser automation layer manages sessions, cookies, and request spoofing. Multiple account support allows request distribution to stay within rate limits.
+  </p>
+
+  <h2>Challenges</h2>
+  <ul>
+    <li><strong>Bot detection is aggressive.</strong> Google's anti-automation systems detect headless browsers. Camoufox helped, but maintaining stealth required constant attention to browser fingerprinting details.</li>
+    <li><strong>Session management across multiple accounts.</strong> Keeping sessions alive, handling token refresh, and rotating accounts smoothly without dropping requests.</li>
+    <li><strong>Selector stability.</strong> When Google changes their front-end, the automation breaks. I learned this lesson the hard way — see FBScrapeIdeas for the self-healing selector pattern I developed later.</li>
+    <li><strong>Rate limit handling.</strong> Free-tier access means aggressive throttling. The proxy needs to queue, retry, and distribute load intelligently.</li>
+  </ul>
+
+  <h2>Results</h2>
+  <p>
+    {project.stars}★, {project.forks} forks. Actively maintained through April 2026 with real community usage. The project fills a genuine gap in the AI tooling ecosystem — making Google AI Studio accessible to the OpenAI ecosystem without writing adapter code.
+  </p>
+</CaseStudyLayout>

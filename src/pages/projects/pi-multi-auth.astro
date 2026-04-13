@@ -1,0 +1,26 @@
+---
+import CaseStudyLayout from '@/layouts/CaseStudyLayout.astro';
+import { getProjectById } from '@/data/projects';
+
+const project = getProjectById('pi-multi-auth')!;
+---
+
+<CaseStudyLayout
+  title={project.title}
+  description={project.tagline}
+  projectUrl={project.repo}
+  stars={project.stars}
+  forks={project.forks}
+  techTags={['TypeScript', 'Pi', 'OAuth', 'Multi-Provider Auth', 'Account Rotation']}
+  screenshots={project.screenshots}
+>
+  <h2>Approach</h2>
+  <p>
+    Multi-provider credential management extension for Pi. Supports OAuth login flows, API key rotation, and account switching — essential infrastructure for users who operate across multiple AI provider accounts. Implements secure credential storage and automated rotation to avoid rate limits.
+  </p>
+
+  <h2>Results</h2>
+  <p>
+    {project.stars}★. Auth infrastructure is unglamorous but critical — this extension makes multi-provider agent workflows stable and secure.
+  </p>
+</CaseStudyLayout>
