@@ -1,0 +1,61 @@
+---
+// Featured projects on homepage — TUI-style "$ ls -la featured/"
+// Data sourced from src/data/projects.ts (single source of truth)
+import ProjectCard from './ProjectCard.astro';
+import { getFeaturedProjects } from '@/data/projects';
+
+const featured = getFeaturedProjects();
+---
+
+<section id="projects" class="section-reveal py-16 md:py-24" aria-labelledby="projects-heading">
+  <div class="max-w-showcase mx-auto px-5 sm:px-8 md:px-12">
+    <!-- TUI-style heading -->
+    <div class="flex items-baseline justify-between mb-8">
+      <div>
+        <p class="tui-heading mb-1" aria-hidden="true">
+          <span class="text-accent">$</span> ls -la featured/
+        </p>
+        <h2 id="projects-heading" class="text-3xl md:text-4xl font-display font-bold text-text">
+          Featured projects
+        </h2>
+      </div>
+      <a
+        href="/projects"
+        class="text-sm font-mono text-text-muted hover:text-accent transition-colors hidden sm:inline-flex items-center gap-1"
+      >
+        all projects/
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+        </svg>
+      </a>
+    </div>
+
+    <div>
+      {featured.map((project, i) => (
+        <ProjectCard
+          title={project.title}
+          tagline={project.tagline}
+          language={project.language}
+          stars={project.stars}
+          forks={project.forks}
+          topics={project.topics}
+          demo={project.demo}
+          screenshots={project.screenshots}
+          tier={project.tier}
+          href={`/projects/${project.id}`}
+          index={i}
+        />
+      ))}
+    </div>
+
+    <!-- Mobile "view all" link -->
+    <div class="mt-6 sm:hidden">
+      <a
+        href="/projects"
+        class="inline-flex items-center gap-2 text-sm font-mono text-accent min-h-[44px]"
+      >
+        $ ls projects/ →
+      </a>
+    </div>
+  </div>
+</section>

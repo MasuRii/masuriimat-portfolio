@@ -1,0 +1,172 @@
+---
+// About section — TUI-style "$ cat skills.md" and "$ cat about.md"
+
+type SkillItem = {
+  name: string;
+  level: number; // 0–100
+};
+
+type SkillCategory = {
+  label: string;
+  tuiColor: string;
+  items: SkillItem[];
+};
+
+// Skills expanded from resume (BiacoloResumeFinalV8.json) —
+// Languages, frameworks, and broader competencies
+const skillCategories: SkillCategory[] = [
+  {
+    label: 'Languages',
+    tuiColor: 'accent',
+    items: [
+      { name: 'TypeScript', level: 92 },
+      { name: 'Python', level: 88 },
+      { name: 'JavaScript', level: 90 },
+      { name: 'Rust', level: 60 },
+      { name: 'Dart', level: 55 },
+      { name: 'Kotlin', level: 50 },
+      { name: 'SQL', level: 65 },
+    ],
+  },
+  {
+    label: 'Frontend',
+    tuiColor: 'green',
+    items: [
+      { name: 'React', level: 90 },
+      { name: 'Next.js', level: 72 },
+      { name: 'Astro', level: 75 },
+      { name: 'Tailwind CSS', level: 88 },
+      { name: 'Accessibility', level: 70 },
+    ],
+  },
+  {
+    label: 'Backend & APIs',
+    tuiColor: 'blue',
+    items: [
+      { name: 'FastAPI', level: 80 },
+      { name: 'Node.js', level: 78 },
+      { name: 'REST APIs', level: 82 },
+      { name: 'CLI Tooling', level: 75 },
+    ],
+  },
+  {
+    label: 'Automation & AI',
+    tuiColor: 'yellow',
+    items: [
+      { name: 'Playwright', level: 78 },
+      { name: 'Browser Ext.', level: 72 },
+      { name: 'LLM APIs', level: 76 },
+      { name: 'Power Automate', level: 68 },
+    ],
+  },
+  {
+    label: 'Dev Tools',
+    tuiColor: 'accent',
+    items: [
+      { name: 'Git/GitHub', level: 85 },
+      { name: 'Pi Extensions', level: 80 },
+      { name: 'OpenCode Plugins', level: 78 },
+      { name: 'Vitest', level: 70 },
+    ],
+  },
+  {
+    label: 'Platforms & Mobile',
+    tuiColor: 'green',
+    items: [
+      { name: 'Flutter', level: 55 },
+      { name: 'PostgreSQL', level: 62 },
+      { name: 'Firebase', level: 60 },
+      { name: 'Vercel', level: 72 },
+    ],
+  },
+];
+
+// Flat list of all tech tags for the tag cloud
+const allTechTags = skillCategories.flatMap(cat =>
+  cat.items.map(item => item.name)
+);
+
+// ASCII progress bar: filled blocks, empty blocks, percentage
+function asciiBar(level: number): { filled: string; empty: string } {
+  const totalBlocks = 10;
+  const filled = Math.round((level / 100) * totalBlocks);
+  const empty = totalBlocks - filled;
+  return {
+    filled: '█'.repeat(filled),
+    empty: '░'.repeat(empty),
+  };
+}
+---
+
+<section id="about" class="section-reveal py-16 md:py-24" aria-labelledby="about-heading">
+  <div class="max-w-content mx-auto px-5 sm:px-8 md:px-12">
+    <!-- Skills first — TUI cat style with ASCII progress bars -->
+    <p class="tui-heading mb-2" aria-hidden="true">
+      <span class="text-accent">$</span> cat skills.md
+    </p>
+    <h2 id="about-heading" class="text-3xl md:text-4xl font-display font-bold text-text mb-8">
+      Skills
+    </h2>
+
+    <!-- Skill categories with ASCII progress bars -->
+    <div class="mb-10 space-y-6" role="list" aria-label="Skill levels">
+      {skillCategories.map(category => (
+        <div role="listitem" class="stagger-card">
+          <div class="flex items-center gap-2 mb-2">
+            <span class={`text-xs font-mono font-semibold uppercase tracking-wider ${
+              category.tuiColor === 'accent' ? 'text-accent' :
+              category.tuiColor === 'green' ? 'text-green' :
+              category.tuiColor === 'blue' ? 'text-blue' :
+              'text-yellow'
+            }`}>
+              # {category.label}
+            </span>
+          </div>
+          <div class="pl-2 space-y-1.5">
+            {category.items.map(skill => {
+              const bar = asciiBar(skill.level);
+              return (
+                <div class="flex items-center gap-3 text-sm font-mono leading-none" role="listitem">
+                  <span class="text-text w-24 sm:w-28 text-right truncate">{skill.name}</span>
+                  <span class="ascii-progress" aria-label={`${skill.level}%`}>
+                    <span class="ascii-progress-fill">{bar.filled}</span><span class="ascii-progress-empty">{bar.empty}</span>
+                  </span>
+                  <span class="text-text-dim text-xs w-8">{skill.level}%</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Tech tags -->
+    <div class="flex flex-wrap gap-2 mb-10" role="list" aria-label="Technology stack">
+      {allTechTags.map(tech => (
+        <span
+          class="tui-tag hover:border-accent/40 transition-colors"
+          role="listitem"
+        >
+          {tech}
+        </span>
+      ))}
+    </div>
+
+    <!-- About bio — TUI cat style -->
+    <p class="tui-heading mb-2 mt-12" aria-hidden="true">
+      <span class="text-accent">$</span> cat about.md
+    </p>
+    <h2 class="text-3xl md:text-4xl font-display font-bold text-text mb-6" id="about-bio-heading">
+      About
+    </h2>
+
+    <div class="text-text leading-relaxed space-y-4">
+      <p>
+        I'm Math Lee Lagod Biacolo — a BS IT student at Cebu Institute of Technology – University and a full-stack developer based in Cebu, Philippines. I build AI infrastructure — proxies, relays, scraping tools — developer experience extensions for coding agents, and real products that serve real people — from students planning their schedules to small businesses selling handmade goods.
+      </p>
+      <p>
+        Most days I'm writing TypeScript or Python, occasionally Rust. I've published a Rust crate, shipped 13 developer-tool extensions across two ecosystems, and maintained projects with 50+ GitHub stars. My work sits at the intersection of AI middleware, developer experience, and products that ship.
+      </p>
+    </div>
+  </div>
+</section>

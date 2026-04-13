@@ -1,0 +1,164 @@
+---
+const navLinks = [
+  { href: '/', label: '~/masurii', labelLong: '~/masurii' },
+  { href: '/projects', label: 'projects/', labelLong: 'projects/' },
+  { href: '/#about', label: 'about.md', labelLong: 'about.md' },
+  { href: '/#contact', label: 'contact', labelLong: 'contact' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-40 border-b border-border transition-[background-color] duration-200" role="banner" style="background-color: var(--color-bg); background-image: linear-gradient(var(--color-bg), var(--color-bg));">
+  <nav class="max-w-showcase mx-auto px-5 sm:px-8 md:px-12 h-14 flex items-center justify-between" aria-label="Main navigation">
+    <!-- Prompt-style logo -->
+    <a href="/" class="font-mono text-sm text-accent hover:text-accent-hover transition-colors min-h-[44px] flex items-center" aria-label="MasuRii — Home">
+      <span class="text-text-dim mr-1" aria-hidden="true">$</span><span class="text-accent">masurii</span><span class="text-text-dim ml-0.5" aria-hidden="true">:</span><span class="text-path">~</span>
+    </a>
+
+    <!-- Desktop nav links — path-style -->
+    <div class="hidden md:flex items-center gap-1">
+      {navLinks.map(link => (
+        <a
+          href={link.href}
+          class:list={[
+            'font-mono text-sm px-2 py-1 rounded transition-colors min-h-[44px] flex items-center',
+            currentPath === link.href || (link.href !== '/' && currentPath.startsWith(link.href))
+              ? 'text-accent bg-accent-muted'
+              : 'text-text-muted hover:text-text hover:bg-surface',
+          ]}
+          aria-current={currentPath === link.href ? 'page' : undefined}
+        >
+          {link.labelLong}
+        </a>
+      ))}
+      <!-- Theme toggle -->
+      <button
+        id="theme-toggle"
+        type="button"
+        class="ml-2 p-2 rounded transition-colors text-text-muted hover:text-text hover:bg-surface min-h-[44px] min-w-[44px] flex items-center justify-center"
+        aria-label="Toggle theme"
+        title="Toggle theme"
+      >
+        <!-- Sun icon (shown in dark mode) -->
+        <svg class="hidden w-4 h-4" data-theme-icon="sun" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+        </svg>
+        <!-- Moon icon (shown in light mode) -->
+        <svg class="w-4 h-4" data-theme-icon="moon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+        </svg>
+      </button>
+
+      <!-- ⌘K hint — also opens command palette on click -->
+      <button
+        data-command-palette-trigger
+        type="button"
+        class="text-xs text-text-dim font-mono hidden lg:inline-flex items-center gap-0.5 ml-1 border border-border rounded px-1.5 py-0.5 hover:text-text hover:border-accent transition-colors cursor-pointer min-h-[36px] min-w-[44px]"
+        aria-label="Open command palette"
+        title="Open command palette (⌘K)"
+      >
+        <kbd>⌘</kbd><kbd>K</kbd>
+      </button>
+    </div>
+
+    <!-- Mobile menu button -->
+    <button
+      id="mobile-menu-btn"
+      type="button"
+      class="md:hidden p-2 rounded text-text-muted hover:text-text min-h-[44px] min-w-[44px] flex items-center justify-center"
+      aria-label="Open menu"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+  </nav>
+
+  <!-- Mobile menu -->
+  <div
+    id="mobile-menu"
+    class="md:hidden hidden border-t border-border overflow-hidden transition-[max-height] duration-200"
+    style="max-height: 0; background-color: var(--color-bg);"
+    role="menu"
+    aria-label="Mobile navigation"
+  >
+    <div class="px-4 py-3 space-y-1">
+      {navLinks.map(link => (
+        <a
+          href={link.href}
+          class:list={[
+            'block font-mono text-sm px-3 py-2 rounded transition-colors',
+            currentPath === link.href
+              ? 'text-accent bg-accent-muted'
+              : 'text-text-muted hover:text-text hover:bg-surface',
+          ]}
+          role="menuitem"
+        >
+          <span class="text-text-dim mr-1">$</span>{link.labelLong}
+        </a>
+      ))}
+      <div class="flex items-center gap-3 pt-2 border-t border-border mt-2">
+        <button
+          id="theme-toggle-mobile"
+          type="button"
+          class="flex items-center gap-2 text-sm font-mono text-text-muted hover:text-text py-2 transition-colors min-h-[44px]"
+          aria-label="Toggle theme"
+        >
+          <svg class="w-4 h-4 hidden" data-theme-icon="sun-mobile" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+          <svg class="w-4 h-4" data-theme-icon="moon-mobile" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+          <span>toggle-theme</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    updateThemeIcons(next);
+  }
+
+  function updateThemeIcons(theme: string) {
+    const sunIcons = document.querySelectorAll('[data-theme-icon="sun"], [data-theme-icon="sun-mobile"]');
+    const moonIcons = document.querySelectorAll('[data-theme-icon="moon"], [data-theme-icon="moon-mobile"]');
+    sunIcons.forEach(icon => (icon as HTMLElement).classList.toggle('hidden', theme !== 'dark'));
+    moonIcons.forEach(icon => (icon as HTMLElement).classList.toggle('hidden', theme !== 'light'));
+  }
+
+  // Initial icon state
+  const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+  updateThemeIcons(currentTheme);
+
+  // Desktop toggle
+  document.getElementById('theme-toggle')?.addEventListener('click', toggleTheme);
+  // Mobile toggle
+  document.getElementById('theme-toggle-mobile')?.addEventListener('click', toggleTheme);
+
+  // Mobile menu toggle
+  const menuBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  menuBtn?.addEventListener('click', () => {
+    const isExpanded = menuBtn.getAttribute('aria-expanded') === 'true';
+    menuBtn.setAttribute('aria-expanded', String(!isExpanded));
+    if (isExpanded) {
+      (mobileMenu as HTMLElement).style.maxHeight = '0';
+      setTimeout(() => mobileMenu?.classList.add('hidden'), 200);
+    } else {
+      mobileMenu?.classList.remove('hidden');
+      void (mobileMenu as HTMLElement).offsetHeight;
+      (mobileMenu as HTMLElement).style.maxHeight = '320px';
+    }
+  });
+</script>

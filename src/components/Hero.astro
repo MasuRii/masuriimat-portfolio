@@ -1,0 +1,122 @@
+---
+// Hero section — TUI-style "$ whoami" with neofetch-inspired profile
+---
+
+<section class="section-reveal py-16 md:py-24 lg:py-28" aria-labelledby="hero-heading">
+  <div class="max-w-content mx-auto px-5 sm:px-8 md:px-12">
+    <!-- TUI prompt line -->
+    <p class="tui-heading mb-3" aria-hidden="true">
+      <span class="text-accent">$</span> whoami
+    </p>
+
+    <!-- Neofetch-style profile card -->
+    <div class="animate-stagger-1 flex flex-col sm:flex-row items-start gap-6 mb-6">
+      <img
+        src="/avatar.jpg"
+        alt="Math Lee Lagod Biacolo — masurii avatar"
+        width="96"
+        height="96"
+        class="rounded-lg border border-border flex-shrink-0"
+        loading="eager"
+        decoding="async"
+      />
+      <div class="flex-1 min-w-0">
+        <h1
+          id="hero-heading"
+          class="font-display font-bold text-4xl md:text-5xl lg:text-6xl tracking-tight text-text"
+        >
+          MasuRii
+        </h1>
+        <!-- Neofetch-style key-value pairs -->
+        <div class="mt-3 space-y-1 text-sm font-mono" role="list" aria-label="Profile details">
+          <div role="listitem">
+            <span class="neofetch-key">name:</span>
+            <span class="neofetch-val">Math Lee Lagod Biacolo</span>
+          </div>
+          <div role="listitem">
+            <span class="neofetch-key">handle:</span>
+            <span class="neofetch-val">masurii</span>
+          </div>
+          <div role="listitem">
+            <span class="neofetch-key">location:</span>
+            <span class="neofetch-val">Cebu, Philippines</span>
+          </div>
+          <div role="listitem">
+            <span class="neofetch-key">role:</span>
+            <span class="neofetch-val">Full-Stack Developer · AI Infra & Dev Tooling</span>
+          </div>
+          <div role="listitem">
+            <span class="neofetch-key">org:</span>
+            <a href="https://github.com/RecursiveDev" target="_blank" rel="noopener noreferrer" class="neofetch-val hover:text-accent transition-colors">@RecursiveDev</a>
+          </div>
+          <div role="listitem">
+            <span class="neofetch-key">repos:</span>
+            <span class="neofetch-val">51 public</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ASCII art divider with accent color -->
+    <div class="animate-stagger-2 mt-2 mb-3 text-xs font-mono text-text-dim hidden sm:block" aria-hidden="true">
+      ──────────────────────────────────────────────
+    </div>
+
+    <!-- Narrative tagline -->
+    <p class="animate-stagger-3 mt-4 text-lg md:text-xl text-text leading-relaxed max-w-2xl">
+      I build the invisible infrastructure that makes powerful technology work for real people.
+    </p>
+
+    <!-- Cluster keywords — monospace, TUI-style -->
+    <p class="animate-stagger-4 mt-3 text-sm text-text-muted font-mono">
+      <span class="text-accent">ai-infra</span> · <span class="text-accent">dev-tooling</span> · <span class="text-accent">full-stack</span> · <span class="text-accent">systems</span>
+    </p>
+
+    <!-- CTA buttons -->
+    <div class="animate-stagger-5 mt-8 flex flex-wrap gap-3 items-center">
+      <a
+        href="/projects"
+        class="inline-flex items-center gap-2 px-5 py-2.5 bg-accent text-white font-display font-semibold text-sm rounded hover:bg-accent-hover transition-colors min-h-[44px]"
+      >
+        <span class="font-mono text-xs" aria-hidden="true">$</span>
+        ls projects/
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+        </svg>
+      </a>
+      <a
+        href="https://rxresu.me/masurii/masurii"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 px-5 py-2.5 border border-border text-text-muted font-display font-medium text-sm rounded hover:text-text hover:border-text transition-colors min-h-[44px]"
+      >
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+        résumé/cv
+      </a>
+      <a
+        href="https://github.com/MasuRii"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 px-5 py-2.5 border border-border text-text-muted font-display font-medium text-sm rounded hover:text-text hover:border-text transition-colors min-h-[44px]"
+      >
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+        </svg>
+        github/MasuRii
+      </a>
+    </div>
+
+    <!-- Keyboard hint for command palette -->
+    <button
+      data-command-palette-trigger
+      class="animate-stagger-5 mt-5 text-xs text-text-dim hidden md:flex items-center gap-2 font-mono hover:text-text transition-colors cursor-pointer min-h-[36px]"
+      aria-label="Open command palette"
+      title="Open command palette (⌘K)"
+    >
+      <kbd class="text-[11px] px-1.5 py-0.5 bg-surface border border-border rounded shadow-[0_1px_0_var(--color-border)]">⌘K</kbd>
+      to search
+    </button>
+  </div>
+</section>
