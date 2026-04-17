@@ -8,8 +8,13 @@ import tailwindcss from '@tailwindcss/vite';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
+// For GitHub Pages: uses repo name as base path
+// For custom domain: change site to your domain and remove base
+const siteUrl = process.env.SITE_URL || 'https://masurii.github.io/masuriimat-portfolio';
+
 export default defineConfig({
-  site: 'https://masurii.dev',
+  site: siteUrl,
+  base: '/masuriimat-portfolio', // Comment out for custom domain
   integrations: [
     react(),
     mdx(),
