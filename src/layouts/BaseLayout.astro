@@ -59,6 +59,8 @@ const webSiteSchema = isHomePage ? {
 
 // Combine all schemas for this page
 const schemas = [personSchema, webSiteSchema].filter(Boolean);
+
+const base = import.meta.env.BASE_URL;
 ---
 
 <!DOCTYPE html>
@@ -66,7 +68,7 @@ const schemas = [personSchema, webSiteSchema].filter(Boolean);
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
     <link rel="canonical" href={canonicalURL} />
     <title>{title}</title>
     <meta name="description" content={description} />
